@@ -2,8 +2,9 @@ import 'server-only';
 
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { pgTable, serial, varchar } from 'drizzle-orm/pg-core';
-import { eq, ilike } from 'drizzle-orm';
+import { numeric, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
+import { eq, ilike ,and} from 'drizzle-orm';
+
 
 export const db = drizzle(
   neon(process.env.POSTGRES_URL!, {
@@ -13,43 +14,76 @@ export const db = drizzle(
   })
 );
 
-const users = pgTable('users', {
+const esp32 = pgTable('esp32', {
   id: serial('id').primaryKey(),
-  name: varchar('name', { length: 50 }),
-  username: varchar('username', { length: 50 }),
-  email: varchar('email', { length: 50 })
+  mac: varchar('mac', { length: 17 }),
+  latitude: numeric('latitude'),
+  longitude: numeric('longitude'),
+  status: varchar('status', { length: 3 })
 });
 
-export type SelectUser = typeof users.$inferSelect;
+export type SelectESP32 = typeof esp32.$inferSelect;
 
 export async function getUsers(
-  search: string,
-  offset: number
+  searchMac: string,
+  searchStatus: string,
+  offset: number,
+  
 ): Promise<{
-  users: SelectUser[];
+  esps: SelectESP32[];
   newOffset: number | null;
+  prevOffset: number | null;
 }> {
   // Always search the full table, not per page
-  if (search) {
+  if (searchMac && searchStatus) {
+    const esps = await db
+      .select()
+      .from(esp32)
+      .where(and(ilike(esp32.mac, `%${searchMac}%`),ilike(esp32.status, `%${searchStatus}%`)))
+      .limit(1000);
     return {
-      users: await db
-        .select()
-        .from(users)
-        .where(ilike(users.name, `%${search}%`))
-        .limit(1000),
-      newOffset: null
+      esps,
+      newOffset: null,
+      prevOffset: null
+    };
+  }
+  
+  if (searchStatus) {
+    const esps = await db
+      .select()
+      .from(esp32)
+      .where(ilike(esp32.status, `%${searchStatus}%`))
+      .limit(1000);
+    return {
+      esps,
+      newOffset: null,
+      prevOffset: null
+    };
+  }
+
+  if (searchMac) {
+    const esps = await db
+      .select()
+      .from(esp32)
+      .where(ilike(esp32.mac, `%${searchMac}%`))
+      .limit(1000);
+    return {
+      esps,
+      newOffset: null,
+      prevOffset: null
     };
   }
 
   if (offset === null) {
-    return { users: [], newOffset: null };
+    return { esps: [], newOffset: null, prevOffset: null };
   }
 
-  const moreUsers = await db.select().from(users).limit(20).offset(offset);
-  const newOffset = moreUsers.length >= 20 ? offset + 20 : null;
-  return { users: moreUsers, newOffset };
+  const moreEsps = await db.select().from(esp32).limit(20).offset(offset);
+  const newOffset = moreEsps.length >= 20 ? offset + 20 : offset;
+  const preOffset = offset - 20;
+  return { esps: moreEsps, newOffset, prevOffset: preOffset};
 }
 
-export async function deleteUserById(id: number) {
-  await db.delete(users).where(eq(users.id, id));
+export async function deletEspById(id: number) {
+  await db.delete(esp32).where(eq(esp32.id, id));
 }

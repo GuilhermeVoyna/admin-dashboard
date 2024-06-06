@@ -2,12 +2,12 @@ import './globals.css';
 
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/react';
-import { Logo, SettingsIcon, UsersIcon, VercelLogo } from '@/components/icons';
+import { Logo, SettingsIcon, Esp32Icon, VercelLogo,MapIcon} from '@/components/icons';
 import { User } from './user';
 import { NavItem } from './nav-item';
 
 export const metadata = {
-  title: 'Next.js App Router + NextAuth + Tailwind CSS',
+  title: 'One to rule them all',
   description:
     'A user admin dashboard configured with Next.js, Postgres, NextAuth, Tailwind CSS, TypeScript, and Prettier.'
 };
@@ -29,14 +29,18 @@ export default function RootLayout({
                   href="/"
                 >
                   <Logo />
-                  <span className="">ACME</span>
+                  <span className="">OTRTA</span>
                 </Link>
               </div>
               <div className="flex-1 overflow-auto py-2">
                 <nav className="grid items-start px-4 text-sm font-medium">
+                  <NavItem href="/map">
+                    <MapIcon className="h-4 w-4" />
+                    Map
+                  </NavItem>
                   <NavItem href="/">
-                    <UsersIcon className="h-4 w-4" />
-                    Users
+                    <Esp32Icon className="h-4 w-4" />
+                    ESP32
                   </NavItem>
                   <NavItem href="/settings">
                     <SettingsIcon className="h-4 w-4" />

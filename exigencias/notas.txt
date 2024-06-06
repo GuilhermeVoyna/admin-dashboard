@@ -1,0 +1,7 @@
+o sie deve receber qualquer post
+
+o site que vai definir a cordenada/posicao da esp32
+essa posicao pode ser editada
+a aba map so vai exibir esps no mapa quando a esp atualizar o seu estado de funcional para quebrado
+
+mudar icone para provavel ponto de quebra
