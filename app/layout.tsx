@@ -2,7 +2,7 @@ import './globals.css';
 
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/react';
-import { Logo, SettingsIcon, Esp32Icon, VercelLogo,MapIcon} from '@/components/icons';
+import { Logo, SettingsIcon, Esp32Icon, VercelLogo,MapIcon, RegisterIcon} from '@/components/icons';
 import { User } from './user';
 import { NavItem } from './nav-item';
 
@@ -42,9 +42,9 @@ export default function RootLayout({
                     <Esp32Icon className="h-4 w-4" />
                     ESP32
                   </NavItem>
-                  <NavItem href="/settings">
-                    <SettingsIcon className="h-4 w-4" />
-                    Settings
+                  <NavItem href="/register">
+                    <RegisterIcon className="h-4 w-4" />
+                    Register
                   </NavItem>
                   <NavItem href="https://vercel.com/templates/next.js/admin-dashboard-tailwind-postgres-react-nextjs">
                     <VercelLogo className="h-4 w-4" />

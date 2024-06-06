@@ -31,7 +31,7 @@ export default function Error({
     mac VARCHAR(17) NOT NULL,
     latitude DECIMAL(9, 6) NOT NULL,
     longitude DECIMAL(9, 6) NOT NULL,
-    status VARCHAR(3) NOT NULL
+    status VARCHAR(3) NOT NULL CHECK (status IN ('ON', 'OFF'))
 );`}
           </code>
         </pre>
