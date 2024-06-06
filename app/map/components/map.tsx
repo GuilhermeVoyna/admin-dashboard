@@ -1,55 +1,55 @@
 'use client';
 
-import {Loader} from '@googlemaps/js-api-loader';
-import { number } from 'prop-types';
+import { Loader } from '@googlemaps/js-api-loader';
 import React, { useEffect } from 'react';
-import { getEspByStatus} from './getEspByStatus';
-import { get } from 'http';
+import { SelectESP32 } from '@/lib/db';
 
+interface MapProps {
+  esp: SelectESP32[];
+}
 
-export function Map(){
+export function Map({ esp }: MapProps) {
+  const mapRef = React.useRef<HTMLDivElement>(null);
 
-    const mapRef = React.useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const initMap = async () => {
+      const loader = new Loader({
+        apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
+        version: 'weekly',
+      });
 
-    useEffect(() => {
-        const initMap = async () => {
-            const loader = new Loader({
-                apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
-                version: "weekly"
-            });
-            
-            const {Map} = await loader.importLibrary('maps');
-            // init marker
-            const {Marker} = await loader.importLibrary('marker') as google.maps.MarkerLibrary
+      const google = await loader.load();
+      const { Map } = google.maps;
+      const { Marker } = google.maps;
 
-            //getBrokenEsp
-            const {esps} = await getEspByStatus("OFF");
-            
-            const position = {lat: 51.5074, lng: 0.1278};
+      // Map options object
+      const mapOptions: google.maps.MapOptions = {
+        center: { lat: 51.5074, lng: 0.1278 }, // Default position (London)
+        zoom: 2,
+        mapId: 'MY_NEXTJS_MAPID',
+      };
 
-            //map options
+      // Setup map
+      const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
 
-            const mapOptions : google.maps.MapOptions = {
-                center: position,
-                zoom: 15,
-                mapId: 'MY_NEXTJS_MAPID'
-            };
+      // Add markers for each ESP32 device
+      esp.forEach((device) => {
+        new Marker({
+          position: {
+            lat: parseFloat(device.latitude as string),
+            lng: parseFloat(device.longitude as string),
+          },
+          map: map,
+          title: device.mac,
+        });
+      });
+    };
 
-            //seteup map
-            
-            const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
-            //positions test
+    initMap();
+  }, [esp]);
 
-
-            // Iterate over esp32 array if it exists and has elements
-            
-        }
-
-        initMap();
-    }, []);
-
-    return (
-        <div style={{height: '600px', width: '100%'}} ref={mapRef}></div>
-        
-    );
+  return <div style={{   height: "70vh",
+    width: "100%",
+    top: 0,
+    left: 0}} ref={mapRef}></div>;
 }

@@ -16,12 +16,12 @@ import { func } from 'prop-types';
 import { on } from 'events';
 
 export function UsersTable({
-  users,
+  esp,
   offset,
-  prevOffset: prevOffset,
-  newOffset: newOffset
+  prevOffset,
+  newOffset
 }: {
-  users: SelectESP32[];
+  esp: SelectESP32[];
   offset: number | null;
   prevOffset: number | null;
   newOffset: number | null;
@@ -51,7 +51,7 @@ export function UsersTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {esp.map((user) => (
               <UserRow key={user.id} user={user} />
             ))}
           </TableBody>

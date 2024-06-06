@@ -26,18 +26,19 @@ export default function Error({
         </p>
         <pre className="my-4 px-3 py-4 bg-black text-white rounded-lg max-w-2xl overflow-scroll flex text-wrap">
           <code>
-            {`CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  email VARCHAR(255) NOT NULL,
-  name VARCHAR(255),
-  username VARCHAR(255)
+            {`CREATE TABLE esp32 (
+    id SERIAL PRIMARY KEY,
+    mac VARCHAR(17) NOT NULL,
+    latitude DECIMAL(9, 6) NOT NULL,
+    longitude DECIMAL(9, 6) NOT NULL,
+    status VARCHAR(3) NOT NULL
 );`}
           </code>
         </pre>
         <p>Insert a row for testing:</p>
         <pre className="my-4 px-3 py-4 bg-black text-white rounded-lg max-w-2xl overflow-scroll flex text-wrap">
           <code>
-            {`INSERT INTO users (id, email, name, username) VALUES (1, 'me@site.com', 'Me', 'username');`}
+            {`INSERT INTO esp32 (mac, latitude, longitude, status) VALUES('00:1B:44:11:3A:B7', 40.712776, -74.005974, 'OFF');`}
           </code>
         </pre>
       </div>

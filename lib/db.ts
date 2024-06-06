@@ -24,6 +24,21 @@ const esp32 = pgTable('esp32', {
 
 export type SelectESP32 = typeof esp32.$inferSelect;
 
+export async function getEspByStatus(
+  status: string,
+  
+): Promise<{
+  esps: SelectESP32[];
+}> {
+    const esps = await db
+      .select()
+      .from(esp32)
+      .where(ilike(esp32.status,`%${status}%`))
+      .limit(1000);
+    return {
+      esps,
+    };
+}
 export async function getUsers(
   searchMac: string,
   searchStatus: string,

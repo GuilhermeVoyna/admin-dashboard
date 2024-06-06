@@ -12,7 +12,7 @@ export default async function IndexPage({
   const searchStatus = searchParams.s ?? '';
   const offset = searchParams.offset ?? 0;
   const { esps, newOffset,prevOffset: prevOffset} = await getUsers( searchMac ,searchStatus, Number(offset));
-  // create a prevOffset
+
  
   return (
     <main className="flex flex-1 flex-col p-4 md:p-6">
@@ -22,7 +22,7 @@ export default async function IndexPage({
       <div className="w-full mb-4">
         <Search value={searchParams.q} />
       </div>
-      <UsersTable esp={esps} offset={offset} prevOffset={prevOffset} newOffset={newOffset}/>
+      <UsersTable users={esps} offset={offset} prevOffset={prevOffset} newOffset={newOffset}/>
     </main>
   );
 }
