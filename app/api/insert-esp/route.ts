@@ -20,6 +20,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ mac, latitude, longitude, status }, { status: 200 });
   } catch (error) {
     // Return a more informative error message
-    return NextResponse.json({ error: error}, { status: 400 });
+    return NextResponse.json({ error: (error as Error).message }, { status: 400 });
   }
 };

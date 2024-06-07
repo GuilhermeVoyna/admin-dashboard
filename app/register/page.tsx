@@ -11,12 +11,6 @@ const RegisterPage: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Validate status
-    if (status !== 'ON' && status !== 'OFF') {
-      alert('Status must be either "ON" or "OFF"');
-      return;
-    }
-
     const baseURL = 'http://localhost:3000';
     const apiEndpoint = 'api/insert-esp/';
     const queryString = `${baseURL}/${apiEndpoint}?mac=${mac}&latitude=${latitude}&longitude=${longitude}&status=${status}`;

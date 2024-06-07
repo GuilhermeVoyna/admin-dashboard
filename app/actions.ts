@@ -1,6 +1,6 @@
 'use server';
 
-import { deletEspById } from '@/lib/db';
+import { deletEspById , changeEspStatus } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 
 export async function deleteUser(userId: number) {
@@ -12,5 +12,10 @@ export async function deleteUser(userId: number) {
 export async function deleteESP32(espId: number) {
   // Uncomment this to enable deletion
   await deletEspById(espId);
+  revalidatePath('/');
+}
+
+export async function changeStatusESP32(espId: number) {
+  await changeEspStatus (espId);
   revalidatePath('/');
 }

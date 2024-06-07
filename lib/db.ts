@@ -19,7 +19,8 @@ const esp32 = pgTable('esp32', {
   mac: varchar('mac', { length: 17 }),
   latitude: numeric('latitude'),
   longitude: numeric('longitude'),
-  status: varchar('status', { length: 3 })
+  status: varchar('status', { length: 3 }),
+  // Add the 'status' property to the table configuration
 });
 
 export type SelectESP32 = typeof esp32.$inferSelect;
@@ -101,4 +102,15 @@ export async function getUsers(
 
 export async function deletEspById(id: number) {
   await db.delete(esp32).where(eq(esp32.id, id));
+}
+export async function changeEspStatus(id: number) {
+  const esps = await db
+  .select()
+  .from(esp32)
+  .where(eq(esp32.id, id))
+  .limit(1);
+  console.log(id);
+  // update the status
+  const newStatus = esps[0].status === 'ON' ? 'OFF' : 'ON';
+  await db.update(esp32).set({ status: newStatus }).where(eq(esp32.id, id));
 }

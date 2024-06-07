@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { SelectESP32 } from '@/lib/db';
-import { deleteESP32 } from './actions';
+import { deleteESP32,changeStatusESP32 } from './actions';
 import { useRouter } from 'next/navigation';
 import { func } from 'prop-types';
 import { on } from 'events';
@@ -95,6 +95,7 @@ export function UsersTable({
 function UserRow({ user: esp32 }: { user: SelectESP32 }) {
   const userId = esp32.id;
   const deleteEspWithId = deleteESP32.bind(null, userId);
+  const changeEspStatusWithId = changeStatusESP32.bind(null, userId);
 
   return (
     <TableRow>
@@ -102,6 +103,16 @@ function UserRow({ user: esp32 }: { user: SelectESP32 }) {
       <TableCell className="hidden md:table-cell">{esp32.latitude}</TableCell>
       <TableCell>{esp32.longitude}</TableCell>
       <TableCell>{esp32.status}</TableCell>
+      <TableCell>
+        <Button
+          className="w-full"
+          size="sm"
+          variant="outline"
+          formAction={changeEspStatusWithId}
+        >
+          Change Status 
+        </Button>
+      </TableCell>
       <TableCell>
         <Button
           className="w-full"
