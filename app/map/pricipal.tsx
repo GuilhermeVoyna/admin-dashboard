@@ -1,6 +1,6 @@
 import { getUsers } from '@/lib/db';
-import { UsersTable } from './users-table';
-import { Search } from './search';
+import { UsersTable } from '../users-table';
+import { Search } from '../search';
 import { off } from 'process';
 
 export default async function IndexPage({
@@ -10,7 +10,7 @@ export default async function IndexPage({
 }) {
   const searchMac = searchParams.q ?? '';
   const searchStatus = searchParams.s ?? '';
-  const offset = searchParams.offset ?? 0;
+  const offset = Number(searchParams.offset) ?? 0;
   const { esps, newOffset,prevOffset: prevOffset} = await getUsers( searchMac ,searchStatus, Number(offset));
 
  
@@ -22,7 +22,7 @@ export default async function IndexPage({
       <div className="w-full mb-4">
         <Search value={searchParams.q} />
       </div>
-      <UsersTable users={esps} offset={offset} prevOffset={prevOffset} newOffset={newOffset}/>
+      <UsersTable esp={esps} offset={offset} prevOffset={prevOffset} newOffset={newOffset}/>
     </main>
   );
 }

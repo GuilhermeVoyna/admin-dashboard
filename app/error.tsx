@@ -32,6 +32,7 @@ export default function Error({
     latitude DECIMAL(9, 6) NOT NULL,
     longitude DECIMAL(9, 6) NOT NULL,
     status VARCHAR(3) NOT NULL CHECK (status IN ('ON', 'OFF'))
+    line DECIMAL(3, 0) NOT NULL
 );`}
           </code>
         </pre>

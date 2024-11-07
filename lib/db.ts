@@ -20,6 +20,7 @@ const esp32 = pgTable('esp32', {
   latitude: numeric('latitude'),
   longitude: numeric('longitude'),
   status: varchar('status', { length: 3 }),
+  line: numeric('line'),
   // Add the 'status' property to the table configuration
 });
 

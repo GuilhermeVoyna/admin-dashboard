@@ -7,14 +7,15 @@ export async function GET(request: Request) {
   const latitude = searchParams.get('latitude');
   const longitude = searchParams.get('longitude');
   const status = searchParams.get('status');
+  const line = searchParams.get('line');
 
   try {
-    if (!mac || !latitude || !longitude || !status) throw new Error('MAC, latitude, longitude, and status are required');
+    if (!mac || !latitude || !longitude || !status) throw new Error('MAC, latitude, longitude, status and line are required');
     
     // Insert into the esp32 table
     await sql`
-      INSERT INTO esp32 (mac, latitude, longitude, status) 
-      VALUES (${mac}, ${latitude}, ${longitude}, ${status})
+      INSERT INTO esp32 (mac, latitude, longitude, status, line) 
+      VALUES (${mac}, ${latitude}, ${longitude}, ${status}, ${line})
     `;
     // Return the inserted data or a success message
     return NextResponse.json({ mac, latitude, longitude, status }, { status: 200 });

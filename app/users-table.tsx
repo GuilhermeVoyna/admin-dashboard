@@ -22,9 +22,9 @@ export function UsersTable({
   newOffset
 }: {
   esp: SelectESP32[];
-  offset: number | null;
-  prevOffset: number | null;
-  newOffset: number | null;
+  offset: number;
+  prevOffset: number;
+  newOffset: number;
 }) {
   const router = useRouter();
   let nextClickCount = 0;
@@ -43,7 +43,9 @@ export function UsersTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="max-w-[150px]">Mac</TableHead>
+              <TableHead className="hidden md:table-cell">Line Id</TableHead>
+              <TableHead className="hidden md:table-cell">Esp Id</TableHead>
+              <TableHead className="hidden md:table-cell">Mac</TableHead>
               <TableHead className="hidden md:table-cell">Latitude</TableHead>
               <TableHead className="hidden md:table-cell">Longitude</TableHead>
               <TableHead className="hidden md:table-cell">Status</TableHead>
@@ -63,7 +65,7 @@ export function UsersTable({
     <Button
       className="mt-4 w-40"
       variant="secondary"
-      onClick={() => onClick(newOffset)}
+      onClick={() => onClick(newOffset ?? 20)}
     >
       Next Page
     </Button>
@@ -77,7 +79,7 @@ export function UsersTable({
     <Button
       className="mt-4 w-40"
       variant="secondary"
-      onClick={() => onClick(prevOffset)}
+      onClick={() => onClick(prevOffset ?? 20)}
     >
       Previous Page
     </Button>
@@ -99,6 +101,8 @@ function UserRow({ user: esp32 }: { user: SelectESP32 }) {
 
   return (
     <TableRow>
+      <TableCell className="hidden md:table-cell">{esp32.line}</TableCell>
+      <TableCell className="hidden md:table-cell">{esp32.id}</TableCell>
       <TableCell className="font-medium">{esp32.mac}</TableCell>
       <TableCell className="hidden md:table-cell">{esp32.latitude}</TableCell>
       <TableCell>{esp32.longitude}</TableCell>

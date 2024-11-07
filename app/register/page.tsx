@@ -6,16 +6,17 @@ const RegisterPage: React.FC = () => {
   const [mac, setMacAddress] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('ON');
+  const [line, setLine] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const baseURL = 'http://localhost:3000';
+    const baseURL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
     const apiEndpoint = 'api/insert-esp/';
-    const queryString = `${baseURL}/${apiEndpoint}?mac=${mac}&latitude=${latitude}&longitude=${longitude}&status=${status}`;
+    const queryString = `${baseURL}/${apiEndpoint}?mac=${mac}&latitude=${latitude}&longitude=${longitude}&status=${status}&line=${line}`;
 
-    // Perform GET request
+    // Realizar requisição GET
     fetch(queryString)
       .then(response => {
         if (!response.ok) {
@@ -25,17 +26,16 @@ const RegisterPage: React.FC = () => {
         return response.json();
       })
       .then(data => {
-        console.log('Registration successful:', data);
-        // Handle successful registration
-        // Clear the form
+        console.log('Registro bem-sucedido:', data);
+        // Limpar o formulário
         setMacAddress('');
         setLatitude('');
         setLongitude('');
         setStatus('');
+        setLine('');
       })
       .catch(error => {
-        console.error('Error during registration:', error);
-        // Handle error during registration
+        console.error('Erro durante o registro:', error);
       });
   };
 
@@ -47,6 +47,7 @@ const RegisterPage: React.FC = () => {
       <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
         <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Campo para o MAC Address */}
           <div>
             <label htmlFor="mac" className="block text-sm font-medium text-gray-700">MAC Address:</label>
             <input
@@ -59,6 +60,7 @@ const RegisterPage: React.FC = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
+          {/* Campo para Latitude */}
           <div>
             <label htmlFor="latitude" className="block text-sm font-medium text-gray-700">Latitude:</label>
             <input
@@ -71,6 +73,7 @@ const RegisterPage: React.FC = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
+          {/* Campo para Longitude */}
           <div>
             <label htmlFor="longitude" className="block text-sm font-medium text-gray-700">Longitude:</label>
             <input
@@ -83,6 +86,7 @@ const RegisterPage: React.FC = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
+          {/* Campo para Status */}
           <div>
             <label htmlFor="status" className="block text-sm font-medium text-gray-700">Status:</label>
             <select
@@ -92,11 +96,24 @@ const RegisterPage: React.FC = () => {
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             >
-              <option value="">Select Status</option>
               <option value="ON">ON</option>
               <option value="OFF">OFF</option>
             </select>
           </div>
+          {/* Campo para Line */}
+          <div>
+            <label htmlFor="line" className="block text-sm font-medium text-gray-700">Line:</label>
+            <input
+              type="text"
+              id="line"
+              value={line}
+              onChange={e => setLine(e.target.value)}
+              required
+              placeholder="Unique Line Identifier"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+          {/* Botão de Registro */}
           <button
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

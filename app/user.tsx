@@ -14,7 +14,6 @@ export async function User() {
           await signIn('github');
         }}
       >
-        <Button variant="outline">Sign In</Button>
       </form>
     );
   }

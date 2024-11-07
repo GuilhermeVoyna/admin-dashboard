@@ -6,12 +6,16 @@ import { off } from 'process';
 export default async function IndexPage({
   searchParams
 }: {
-  searchParams: { q: string; offset: string ; s: string};
+  searchParams: { q: string; offset: string ; s: string;i: string};
 }) {
   const searchMac = searchParams.q ?? '';
   const searchStatus = searchParams.s ?? '';
-  const offset = searchParams.offset ?? 0;
-  const { esps, newOffset,prevOffset: prevOffset} = await getUsers( searchMac ,searchStatus, Number(offset));
+  const searchLine = searchParams.i ?? '';
+  const offset = Number(searchParams.offset) ?? 0;
+
+  const { esps, newOffset, prevOffset } = await getUsers(searchMac, searchStatus, Number(offset));
+  const safeNewOffset = newOffset ?? 20;
+  const safePrevOffset = prevOffset ??0;
   // create a prevOffset
  
   return (
@@ -20,9 +24,8 @@ export default async function IndexPage({
         <h1 className="font-semibold text-lg md:text-2xl">Esp32</h1>
       </div>
       <div className="w-full mb-4">
-        <Search value={searchParams.q} />
+      <UsersTable esp={esps} offset={offset} prevOffset={safePrevOffset} newOffset={safeNewOffset}/>
       </div>
-      <UsersTable esp={esps} offset={offset} prevOffset={prevOffset} newOffset={newOffset}/>
     </main>
   );
 }
