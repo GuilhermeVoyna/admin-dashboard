@@ -1,37 +1,37 @@
 import { sql } from '@vercel/postgres';
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function PUT(request: Request) {
   const { searchParams } = new URL(request.url);
-  const mac = searchParams.get('mac');
+  const id = searchParams.get('id');
   const status = searchParams.get('status');
 
   try {
-    if (!mac || !status) {
-      throw new Error('MAC address and status are required');
+    if (!id || !status) {
+      throw new Error('ID and status are required');
     }
 
     if (status !== 'ON' && status !== 'OFF') {
       throw new Error('Status must be either "ON" or "OFF"');
     }
 
-    // Update the status of the record with the provided MAC address
+    // Atualiza o status do registro com o ID fornecido
     const result = await sql`
       UPDATE esp32 
       SET status = ${status}
-      WHERE mac = ${mac}
+      WHERE id = ${id}
       RETURNING *;
     `;
 
-    // Check if any record was updated
+    // Verifica se algum registro foi atualizado
     if (result.rowCount === 0) {
-      throw new Error(`No record found with MAC address: ${mac}`);
+      throw new Error(`No record found with ID: ${id}`);
     }
 
-    // Return the updated record
+    // Retorna o registro atualizado
     return NextResponse.json(result.rows[0], { status: 200 });
   } catch (error) {
-    // Return a more informative error message
+    // Retorna uma mensagem de erro mais informativa
     return NextResponse.json({ error: (error as Error).message }, { status: 400 });
   }
 }

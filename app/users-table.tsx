@@ -10,10 +10,8 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { SelectESP32 } from '@/lib/db';
-import { deleteESP32,changeStatusESP32 } from './actions';
+import { deleteESP32, changeStatusESP32 } from './actions';
 import { useRouter } from 'next/navigation';
-import { func } from 'prop-types';
-import { on } from 'events';
 
 export function UsersTable({
   esp,
@@ -27,28 +25,29 @@ export function UsersTable({
   newOffset: number;
 }) {
   const router = useRouter();
-  let nextClickCount = 0;
 
   function onClick(offset: number = 0) {
-    if (offset === 0) {
-      return router.replace('/');
+    if (isNaN(offset)) {
+      offset = 20;
     }
-    router.replace(`/?offset=${offset}`);
+    router.replace(offset === 0 ? '/' : `/?offset=${offset}`);
+    console.log(11,offset);
+
   }
 
   return (
-    <>
-    
-      <form className="border shadow-sm rounded-lg">
+    <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
+      <form className="w-full max-w-7xl bg-white border shadow-md rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-gray-200">
               <TableHead className="hidden md:table-cell">Line Id</TableHead>
               <TableHead className="hidden md:table-cell">Esp Id</TableHead>
               <TableHead className="hidden md:table-cell">Mac</TableHead>
               <TableHead className="hidden md:table-cell">Latitude</TableHead>
               <TableHead className="hidden md:table-cell">Longitude</TableHead>
               <TableHead className="hidden md:table-cell">Status</TableHead>
+              <TableHead className="hidden md:table-cell text-center">Actions</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -59,72 +58,59 @@ export function UsersTable({
           </TableBody>
         </Table>
       </form>
-<div>
+      
+      <div className="mt-6 max-w-7xl flex justify-between w-full">
+  <Button
+    className="w-40 px-6  py-2 rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
+    variant="secondary"
+    onClick={() => onClick(prevOffset ?? 20)}
+    disabled={offset === 0 || offset === null||isNaN(offset)} 
+  >
+    Previous Page
+  </Button>
   
-  {offset !== null && offset != newOffset ? (
-    <Button
-      className="mt-4 w-40"
-      variant="secondary"
-      onClick={() => onClick(newOffset ?? 20)}
-    >
-      Next Page
-    </Button>
-  ) : (
-    <Button className="mt-4 w-40" variant="secondary" disabled>
-  <span style={{ color: '#808080' }}>Next Page</span>
-</Button>
-  )}
-
-  {newOffset !== null && newOffset > 20 ? (
-    <Button
-      className="mt-4 w-40"
-      variant="secondary"
-      onClick={() => onClick(prevOffset ?? 20)}
-    >
-      Previous Page
-    </Button>
-  ): (
-    <Button className="mt-4 w-40" variant="secondary" disabled>
-  <span style={{ color: '#808080' }}>Previous Page</span>
-</Button>
-
-  )}
+  <Button
+    className="w-40 px-6 py-2 rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
+    variant="secondary"
+    onClick={() => onClick(newOffset ?? 20)}
+    disabled={offset === null || offset === newOffset}
+  >
+    Next Page
+  </Button>
 </div>
-    </>
+
+    </div>
   );
 }
 
 function UserRow({ user: esp32 }: { user: SelectESP32 }) {
-  const userId = esp32.id;
-  const deleteEspWithId = deleteESP32.bind(null, userId);
-  const changeEspStatusWithId = changeStatusESP32.bind(null, userId);
+  const deleteEspWithId = deleteESP32.bind(null, esp32.id);
+  const changeEspStatusWithId = changeStatusESP32.bind(null, esp32.id);
 
   return (
-    <TableRow>
-      <TableCell className="hidden md:table-cell">{esp32.line}</TableCell>
-      <TableCell className="hidden md:table-cell">{esp32.id}</TableCell>
-      <TableCell className="font-medium">{esp32.mac}</TableCell>
-      <TableCell className="hidden md:table-cell">{esp32.latitude}</TableCell>
-      <TableCell>{esp32.longitude}</TableCell>
-      <TableCell>{esp32.status}</TableCell>
-      <TableCell>
+    <TableRow className="border-b hover:bg-gray-100">
+      <TableCell className="hidden md:table-cell p-4">{esp32.line}</TableCell>
+      <TableCell className="hidden md:table-cell p-4">{esp32.id}</TableCell>
+      <TableCell className="font-medium p-4">{esp32.mac}</TableCell>
+      <TableCell className="hidden md:table-cell p-4">{esp32.latitude}</TableCell>
+      <TableCell className="p-4">{esp32.longitude}</TableCell>
+      <TableCell className="p-4">{esp32.status}</TableCell>
+      <TableCell className="p-4 flex space-x-2">
         <Button
-          className="w-full"
+          className="w-full px-4 py-2 text-sm bg-white text-black-500 border border-gray-500 rounded-lg hover:bg-red-500 hover:text-white hover:border-red-100"
           size="sm"
           variant="outline"
           formAction={changeEspStatusWithId}
         >
-          Change Status 
+          Change Status
         </Button>
-      </TableCell>
-      <TableCell>
         <Button
-          className="w-full"
+          className="w-full px-4 py-2 text-sm bg-white text-black-500 border border-gray-500 rounded-lg hover:bg-red-500 hover:text-white hover:border-red-100"
           size="sm"
           variant="outline"
           formAction={deleteEspWithId}
         >
-          Delete 
+          Delete
         </Button>
       </TableCell>
     </TableRow>

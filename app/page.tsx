@@ -24,6 +24,9 @@ export default async function IndexPage({
         <h1 className="font-semibold text-lg md:text-2xl">Esp32</h1>
       </div>
       <div className="w-full mb-4">
+        <Search value={searchParams.q} />
+      </div>
+      <div className="w-full mb-4">
       <UsersTable esp={esps} offset={offset} prevOffset={safePrevOffset} newOffset={safeNewOffset}/>
       </div>
     </main>

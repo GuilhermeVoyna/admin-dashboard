@@ -24,8 +24,8 @@ export function Map({ esp }: MapProps) {
 
       // Map options object
       const mapOptions: google.maps.MapOptions = {
-        center: { lat: 51.5074, lng: 0.1278 }, // Default position (London)
-        zoom: 2,
+        center: { lat: -23.5505, lng: -46.6333 }, // São Paulo coordinates
+        zoom: 3,
         mapId: 'MY_NEXTJS_MAPID',
       };
 
@@ -48,8 +48,15 @@ export function Map({ esp }: MapProps) {
     initMap();
   }, [esp]);
 
-  return <div style={{   height: "70vh",
-    width: "100%",
-    top: 0,
-    left: 0}} ref={mapRef}></div>;
+  return     <div
+      ref={mapRef}
+      style={{
+        height: '80vh', // Increased height for more space
+        width: '100%',
+        borderRadius: '12px', // Rounded corners
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Soft shadow for depth
+        overflow: 'hidden', // Prevents content overflow
+        transition: 'all 0.3s ease', // Smooth transition
+      }}
+    />
 }
