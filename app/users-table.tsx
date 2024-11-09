@@ -31,59 +31,56 @@ export function UsersTable({
       offset = 20;
     }
     router.replace(offset === 0 ? '/' : `/?offset=${offset}`);
-    console.log(11,offset);
-
+    console.log(11, offset);
   }
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
       <form className="w-full max-w-7xl bg-white border shadow-md rounded-lg overflow-hidden">
         <Table>
-          <TableHeader>
-            <TableRow className="bg-gray-200">
-              <TableHead className="hidden md:table-cell">Line Id</TableHead>
-              <TableHead className="hidden md:table-cell">Esp Id</TableHead>
-              <TableHead className="hidden md:table-cell">Mac</TableHead>
-              <TableHead className="hidden md:table-cell">Latitude</TableHead>
-              <TableHead className="hidden md:table-cell">Longitude</TableHead>
-              <TableHead className="hidden md:table-cell">Status</TableHead>
-              <TableHead className="hidden md:table-cell text-center">Actions</TableHead>
-              <TableHead></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {esp.map((user) => (
-              <UserRow key={user.id} user={user} />
-            ))}
-          </TableBody>
+        <TableHeader>
+  <TableRow className="bg-gray-200">
+    <TableHead className="hidden md:table-cell">Line Id</TableHead>
+    <TableHead className="hidden md:table-cell">Esp Id</TableHead>
+    <TableHead className="hidden md:table-cell">Mac</TableHead>
+    <TableHead className="hidden md:table-cell">Latitude</TableHead>
+    <TableHead className="hidden md:table-cell">Longitude</TableHead>
+    <TableHead className="hidden md:table-cell">Status</TableHead>
+    <TableHead className="hidden md:table-cell text-center">Actions</TableHead>
+  </TableRow>
+</TableHeader>
+
+<TableBody>
+  {esp.map((user) => (
+    <UserRow key={user.id} user={user} />
+  ))}
+</TableBody>
+
         </Table>
       </form>
       
       <div className="mt-6 max-w-7xl flex justify-between w-full">
-  <Button
-    className="w-40 px-6  py-2 rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
-    variant="secondary"
-    onClick={() => onClick(prevOffset ?? 20)}
-    disabled={offset === 0 || offset === null||isNaN(offset)} 
-  >
-    Previous Page
-  </Button>
-  
-  <Button
-    className="w-40 px-6 py-2 rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
-    variant="secondary"
-    onClick={() => onClick(newOffset ?? 20)}
-    disabled={offset === null || offset === newOffset}
-  >
-    Next Page
-  </Button>
-</div>
-
+        <Button
+          className="w-40 px-6 py-2 rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
+          variant="secondary"
+          onClick={() => onClick(prevOffset ?? 20)}
+          disabled={offset === 0 || offset === null || isNaN(offset)} 
+        >
+          Previous Page
+        </Button>
+        
+        <Button
+          className="w-40 px-6 py-2 rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
+          variant="secondary"
+          onClick={() => onClick(newOffset ?? 20)}
+          disabled={offset === null || offset === newOffset}
+        >
+          Next Page
+        </Button>
+      </div>
     </div>
   );
-}
-
-function UserRow({ user: esp32 }: { user: SelectESP32 }) {
+}function UserRow({ user: esp32 }: { user: SelectESP32 }) {
   const deleteEspWithId = deleteESP32.bind(null, esp32.id);
   const changeEspStatusWithId = changeStatusESP32.bind(null, esp32.id);
 
@@ -95,7 +92,7 @@ function UserRow({ user: esp32 }: { user: SelectESP32 }) {
       <TableCell className="hidden md:table-cell p-4">{esp32.latitude}</TableCell>
       <TableCell className="p-4">{esp32.longitude}</TableCell>
       <TableCell className="p-4">{esp32.status}</TableCell>
-      <TableCell className="p-4 flex space-x-2">
+      <TableCell className="p-4 flex space-x-2 w-full">
         <Button
           className="w-full px-4 py-2 text-sm bg-white text-black-500 border border-gray-500 rounded-lg hover:bg-red-500 hover:text-white hover:border-red-100"
           size="sm"

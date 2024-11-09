@@ -5,7 +5,6 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import { numeric, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
 import { eq, ilike, and } from 'drizzle-orm';
 
-
 export const db = drizzle(
   neon(process.env.POSTGRES_URL!, {
     fetchOptions: {
@@ -21,14 +20,12 @@ const esp32 = pgTable('esp32', {
   longitude: numeric('longitude'),
   status: varchar('status', { length: 3 }),
   line: numeric('line'),
-  // Add the 'status' property to the table configuration
 });
 
 export type SelectESP32 = typeof esp32.$inferSelect;
 
 export async function getEspByStatus(
   status: string,
-  
 ): Promise<{
   esps: SelectESP32[];
 }> {
@@ -41,14 +38,13 @@ export async function getEspByStatus(
       esps,
     };
 }
-// lib/db.js (exemplo)
+
 export async function getUniqueLines() {
   const rows = await db.select({ value: esp32.line }).from(esp32);
   const uniqueValues = Array.from(new Set(rows.map(row => row.value ? row.value.toString() : '')));
   return uniqueValues;
 }
 
-// Atualização na função getUsers para incluir o filtro de linha
 export async function getUsers(
   searchMac: string,
   searchStatus: string,
@@ -92,6 +88,7 @@ export async function getUsers(
 export async function deletEspById(id: number) {
   await db.delete(esp32).where(eq(esp32.id, id));
 }
+
 export async function changeEspStatus(id: number) {
   const esps = await db
   .select()
@@ -99,7 +96,6 @@ export async function changeEspStatus(id: number) {
   .where(eq(esp32.id, id))
   .limit(1);
   console.log(id);
-  // update the status
   const newStatus = esps[0].status === 'ON' ? 'OFF' : 'ON';
   await db.update(esp32).set({ status: newStatus }).where(eq(esp32.id, id));
 }

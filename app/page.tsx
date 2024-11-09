@@ -24,7 +24,7 @@ export default async function IndexPage({
 return (
   <main className="flex flex-1 flex-col p-4 md:p-6 bg-gray-100 min-h-screen">
     <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-      <h1 className="font-semibold text-2xl md:text-3xl text-gray-800 mb-4 md:mb-0">ESP32 Devices</h1>
+      <h1 className="font-semibold text-2xl text-indigo-800 md:text-3xl">ESP32 Devices</h1>
     </div>
     <div className="flex flex-col md:flex-row justify-center items-center mb-8">
       <div className="w-full md:w-1/2">
