@@ -3,7 +3,7 @@ import 'server-only';
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { numeric, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
-import { eq, ilike ,and} from 'drizzle-orm';
+import { eq, ilike, and } from 'drizzle-orm';
 
 
 export const db = drizzle(
@@ -41,64 +41,52 @@ export async function getEspByStatus(
       esps,
     };
 }
+// lib/db.js (exemplo)
+export async function getUniqueLines() {
+  const rows = await db.select({ value: esp32.line }).from(esp32);
+  const uniqueValues = Array.from(new Set(rows.map(row => row.value ? row.value.toString() : '')));
+  return uniqueValues;
+}
+
+// Atualização na função getUsers para incluir o filtro de linha
 export async function getUsers(
   searchMac: string,
   searchStatus: string,
   offset: number,
-  
+  searchLine: string | null 
 ): Promise<{
   esps: SelectESP32[];
   newOffset: number | null;
   prevOffset: number | null;
 }> {
-  // Always search the full table, not per page
-  if (searchMac && searchStatus) {
-    const esps = await db
-      .select()
-      .from(esp32)
-      .where(and(ilike(esp32.mac, `%${searchMac}%`),ilike(esp32.status, `%${searchStatus}%`)))
-      .limit(1000);
-    return {
-      esps,
-      newOffset: null,
-      prevOffset: null
-    };
-  }
-  
-  if (searchStatus) {
-    const esps = await db
-      .select()
-      .from(esp32)
-      .where(ilike(esp32.status, `%${searchStatus}%`))
-      .limit(1000);
-    return {
-      esps,
-      newOffset: null,
-      prevOffset: null
-    };
-  }
+  let query = db.select().from(esp32);
+
+  const conditions = [];
 
   if (searchMac) {
-    const esps = await db
-      .select()
-      .from(esp32)
-      .where(ilike(esp32.mac, `%${searchMac}%`))
-      .limit(1000);
-    return {
-      esps,
-      newOffset: null,
-      prevOffset: null
-    };
+    conditions.push(ilike(esp32.mac, `%${searchMac}%`));
   }
 
-  if (offset === null) {
-    return { esps: [], newOffset: null, prevOffset: null };
+  if (searchStatus) {
+    conditions.push(ilike(esp32.status, `%${searchStatus}%`));
   }
 
-  const moreEsps = await db.select().from(esp32).limit(20).offset(offset);
-  const newOffset = moreEsps.length >= 20 ? offset + 20 : offset;
-  const preOffset = offset - 20;
-  return { esps: moreEsps, newOffset, prevOffset: preOffset};
+  if (searchLine) {
+    const lineNumber = Number(searchLine);
+    if (!isNaN(lineNumber)) {
+      conditions.push(eq(esp32.line, lineNumber.toString()));
+    }
+  }
+
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions)) as typeof query;
+  }
+
+  const esps = await query.limit(20).offset(offset);
+  const newOffset = esps.length >= 20 ? offset + 20 : null;
+  const prevOffset = offset > 0 ? offset - 20 : null;
+
+  return { esps, newOffset, prevOffset };
 }
 
 export async function deletEspById(id: number) {

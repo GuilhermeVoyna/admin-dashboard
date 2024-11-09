@@ -2,7 +2,7 @@ import './globals.css';
 
 import Link from 'next/link';
 import { Analytics } from '@vercel/analytics/react';
-import { Logo, SettingsIcon, Esp32Icon, VercelLogo,MapIcon, RegisterIcon} from '@/components/icons';
+import { Logo, Esp32Icon,MapIcon, RegisterIcon} from '@/components/icons';
 import { User } from './user';
 import { NavItem } from './nav-item';
 
