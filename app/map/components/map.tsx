@@ -14,8 +14,8 @@ export function Map({ esp }: MapProps) {
   useEffect(() => {
     const initMap = async () => {
       const loader = new Loader({
-        apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
-        version: 'weekly',
+      apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
+      version: 'weekly',
       });
 
       const google = await loader.load();
@@ -24,9 +24,9 @@ export function Map({ esp }: MapProps) {
 
       // Map options object
       const mapOptions: google.maps.MapOptions = {
-        center: { lat: -23.5505, lng: -46.6333 }, // São Paulo coordinates
-        zoom: 3,
-        mapId: 'MY_NEXTJS_MAPID',
+      center: { lat: -23.5505, lng: -46.6333 }, // São Paulo coordinates
+      zoom: 3,
+      mapId: 'MY_NEXTJS_MAPID',
       };
 
       // Setup map
@@ -34,14 +34,26 @@ export function Map({ esp }: MapProps) {
 
       // Add markers for each ESP32 device
       esp.forEach((device) => {
-        new Marker({
+        const markerOptions: google.maps.MarkerOptions = {
           position: {
-            lat: parseFloat(device.latitude as string),
-            lng: parseFloat(device.longitude as string),
+        lat: parseFloat(device.latitude as string),
+        lng: parseFloat(device.longitude as string),
           },
           map: map,
-          title: device.mac,
-        });
+          title: `Line: ${device.line?.toString() ?? 'Unknown'} Id: ${device.id.toString()}`,
+        };
+
+        if (device.status === 'ON') {
+          markerOptions.icon = {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 5,
+        fillColor: '#00FF00', // Green color
+        fillOpacity: 1,
+        strokeWeight: 1,
+          };
+        }
+
+        new Marker(markerOptions);
       });
     };
 

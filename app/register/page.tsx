@@ -13,7 +13,7 @@ const RegisterPage: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const baseURL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+    const baseURL = process.env.NEXTAUTH_URL || 'https://admin-dashboard-silk-gamma.vercel.app/';
     const apiEndpoint = 'api/insert-esp/';
     const queryString = `${baseURL}/${apiEndpoint}?mac=${mac}&latitude=${latitude}&longitude=${longitude}&status=${status}&line=${line}`;
 
@@ -78,7 +78,7 @@ const RegisterPage: React.FC = () => {
               value={longitude}
               onChange={e => setLongitude(e.target.value)}
               required
-              placeholder="46.6388"
+              placeholder="-46.6388"
               className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm transition duration-200"
             />
           </div>
