@@ -61,7 +61,7 @@ export function UsersTable({
       
       <div className="mt-6 max-w-7xl flex justify-between w-full">
         <Button
-          className="w-40 px-6 py-2 rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
+          className="w-40 px-6 py-2 rounded-lg shadow-md bg-indigo-600 text-white hover:bg-indigo-700 disabled:bg-gray-300"
           variant="secondary"
           onClick={() => onClick(prevOffset ?? 20)}
           disabled={offset === 0 || offset === null || isNaN(offset)} 
@@ -70,7 +70,7 @@ export function UsersTable({
         </Button>
         
         <Button
-          className="w-40 px-6 py-2 rounded-lg shadow-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300"
+          className="w-40 px-6 py-2 rounded-lg shadow-md bg-indigo-600 text-white hover:bg-indigo-700 disabled:bg-gray-300"
           variant="secondary"
           onClick={() => onClick(newOffset ?? 20)}
           disabled={offset === null || offset === newOffset}
@@ -94,7 +94,7 @@ export function UsersTable({
       <TableCell className="p-4">{esp32.status}</TableCell>
       <TableCell className="p-4 flex space-x-2 w-full">
         <Button
-          className="w-full px-4 py-2 text-sm bg-white text-black-500 border border-gray-500 rounded-lg hover:bg-red-500 hover:text-white hover:border-red-100"
+          className="w-full px-4 py-2 text-sm bg-white text-black-500 border border-gray-500 rounded-lg hover:bg-indigo-500 hover:text-white hover:border-indigo-100"
           size="sm"
           variant="outline"
           formAction={changeEspStatusWithId}
@@ -102,7 +102,7 @@ export function UsersTable({
           Change Status
         </Button>
         <Button
-          className="w-full px-4 py-2 text-sm bg-white text-black-500 border border-gray-500 rounded-lg hover:bg-red-500 hover:text-white hover:border-red-100"
+          className="w-full px-4 py-2 text-sm bg-white text-black-500 border border-gray-500 rounded-lg hover:bg-indigo-500 hover:text-white hover:border-indigo-100"
           size="sm"
           variant="outline"
           formAction={deleteEspWithId}

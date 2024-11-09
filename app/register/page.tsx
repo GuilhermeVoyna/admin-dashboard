@@ -55,7 +55,7 @@ const RegisterPage: React.FC = () => {
               onChange={e => setMacAddress(e.target.value)}
               required
               placeholder="00:1A:2B:3C:4D:5E"
-              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm transition duration-200"
             />
           </div>
           <div>
@@ -67,7 +67,7 @@ const RegisterPage: React.FC = () => {
               onChange={e => setLatitude(e.target.value)}
               required
               placeholder="-23.5489"
-              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm transition duration-200"
             />
           </div>
           <div>
@@ -79,7 +79,7 @@ const RegisterPage: React.FC = () => {
               onChange={e => setLongitude(e.target.value)}
               required
               placeholder="46.6388"
-              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm transition duration-200"
             />
           </div>
             <div>
@@ -89,7 +89,7 @@ const RegisterPage: React.FC = () => {
               value={status}
               onChange={e => setStatus(e.target.value)}
               required
-              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm bg-white"
+              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm bg-white transition duration-200"
             >
               <option value="ON">ON</option>
               <option value="OFF">OFF</option>
@@ -104,7 +104,7 @@ const RegisterPage: React.FC = () => {
               onChange={e => setLine(e.target.value)}
               required
               placeholder="Unique Line Identifier"
-              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm transition duration-200"
             />
           </div>
           <button

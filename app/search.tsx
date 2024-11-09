@@ -50,13 +50,13 @@ export function Search(props: { mac: string; status: string; line: string; lines
           <label className="text-sm font-medium mb-2 text-gray-700">MAC</label>
           <div className="relative">
             <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />
-            <Input
+            <input
               ref={inputRef}
               value={mac ?? ''}
               onInput={(e) => setMac(e.currentTarget.value)}
               spellCheck={false}
-              className="w-full pl-10 py-3 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-              placeholder="Search MACs..."
+              className=" pl-10 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm bg-white transition duration-200"
+              placeholder="Search MACs...  "
             />
           </div>
         </div>
@@ -65,7 +65,7 @@ export function Search(props: { mac: string; status: string; line: string; lines
           <select
             value={status ?? ''}
             onChange={(e) => setStatus(e.currentTarget.value)}
-            className="bg-gray-100 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            className="bg-gray-100 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
           >
             <option value="">All</option>
             <option value="ON">ON</option>
@@ -77,7 +77,7 @@ export function Search(props: { mac: string; status: string; line: string; lines
           <select
             value={line ?? ''}
             onChange={(e) => setLine(e.currentTarget.value)}
-            className="bg-gray-100 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            className="bg-gray-100 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
           >
             <option value="">All Lines</option>
             {props.lines
